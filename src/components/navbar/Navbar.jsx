@@ -1,14 +1,8 @@
 import {NavLink} from "react-router-dom";
 import "./Navbar.css";
 import Logo from "../../assets/Logo.png";
-import {useState} from "react";
 
 const Navbar = () => {
-    const [isActive, setIsActive] = useState(false);
-
-    const toggleNavbar = () => {
-        setIsActive(!isActive);
-    };
 
     return (
         <nav className="scroll">
