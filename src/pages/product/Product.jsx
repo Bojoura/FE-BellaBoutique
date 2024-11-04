@@ -1,40 +1,38 @@
-import { useState, useEffect } from 'react';
 import "./Product.css";
-import axios from 'axios';
+import ProductCard from "../../components/productcard/ProductCard.jsx";
+import useProducts from "../../components/hooks/useProducts.jsx";
+import {useSearchParams} from "react-router-dom";
 
 const ProductList = () => {
-    const [products, setProducts] = useState([]);
+    const {products, loading, error} = useProducts();
+    const [searchParams] = useSearchParams();
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get('https://fakestoreapi.com/products');
+    if (loading) {
+        return <p>Laden...</p>;
+    }
 
-                setProducts(response.data);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
+    if (error) {
+        return <p>{error}</p>;
+    }
 
-        fetchProducts();
-    }, []);
+    const query = searchParams.get("search");
+    let filteredProducts = products;
+
+    if (query) {
+        filteredProducts = products.filter((product) => product.title.toLowerCase().includes(query.toLowerCase()));
+        if  (filteredProducts.length === 0) {
+            return <p>Geen producten gevonden</p>;
+        }
+    }
 
     return (
-        <>
-            <div className="product-container container">
-                <h1>Kleding</h1>
-
-                <div className="product-list">
-                    {products.map((product) => (
-                        <div key={product.id} className="product-item">
-                            <img src={product.image} alt={product.title}/>
-                            <h3>{product.title}</h3>
-                            <p>Prijs: € {product.price}</p>
-                        </div>
-                    ))}
-                </div>
+        <div className="product-container">
+            <div className="product-list">
+                {filteredProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                ))}
             </div>
-        </>
+        </div>
     );
 };
 
