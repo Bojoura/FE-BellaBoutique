@@ -1,0 +1,13 @@
+.product-container {
+    padding: 0 120px;
+    text-align: center;
+    z-index: 2;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
