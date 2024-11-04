@@ -3,16 +3,26 @@ import "./Navbar.css";
 import Logo from "../../assets/Logo.png";
 
 const Navbar = () => {
+    const [search, setSearch] = useState('');
 
     return (
-        <nav className="scroll">
+        <nav className="navbar">
             <ul className="nav-left">
                 <li>
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                             to="/">Home</NavLink>
+                             to="/">Home
+                    </NavLink>
                 </li>
-                <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                         to="/product">Producten</NavLink>
+                <li>
+                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                             to="/product">Producten
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
+                             to="/cart">Winkelwagen
+                    </NavLink>
+                </li>
             </ul>
 
             <div className="logo">
@@ -23,12 +33,18 @@ const Navbar = () => {
             </div>
 
             <ul className="nav-right">
-                <div className="search">
-                    <form action="">
-                        <input type="text" name="search" id="search" placeholder="Waar ben je naar op zoek?"/>
+                <li className="search">
+                    <form>
+                        <input
+                            type="text"
+                            name="search"
+                            id="search"
+                            placeholder="Zoeken..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
                     </form>
-                </div>
-
+                </li>
                 <li>
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                              to="/account">Account
@@ -36,7 +52,7 @@ const Navbar = () => {
                 </li>
                 <li>
                     <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                             to="/cart">Winkelwagen
+                             to="/contact">Contact
                     </NavLink>
                 </li>
             </ul>
