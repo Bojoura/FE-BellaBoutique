@@ -1,4 +1,4 @@
-import {Routes, Route, Link} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import './App.css'
 import Navbar from "./components/navbar/Navbar.jsx";
 import Home from "./pages/home/Home.jsx";
@@ -10,15 +10,19 @@ import Notfound from "./pages/notfound/Notfound.jsx";
 function App() {
   return (
     <>
-        <Navbar/>
+        <header>
+            <Navbar/>
+        </header>
 
-        <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/account" element={<Account/>}/>
-            <Route path="/product" element={<Product/>}/>
-            <Route path="/cart" element={<Cart/>}/>
-            <Route path="*" element={<Notfound/>}/>
-        </Routes>
+        <main>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/account" element={<Account/>}/>
+                <Route path="/product" element={<Product/>}/>
+                <Route path="/cart" element={<Cart/>}/>
+                <Route path="*" element={<Notfound/>}/>
+            </Routes>
+        </main>
 
     </>
   )
