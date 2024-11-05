@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import {useShopCart} from '/src/context/ShopCartContext.jsx';
+import {useShopCart} from '/src/contexts/ShopCartContext.jsx';
 import './ProductDetail.css';
 import axios from "axios";
 

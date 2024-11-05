@@ -1,4 +1,4 @@
-import { useShopCart } from '/src/context/ShopCartContext';
+import { useShopCart } from '/src/contexts/ShopCartContext';
 import './ShopCart.css';
 
 const ShopCart = () => {
