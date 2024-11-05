@@ -1,9 +1,16 @@
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import "./Navbar.css";
 import Logo from "../../assets/Logo.png";
+import {useState} from "react";
 
 const Navbar = () => {
     const [search, setSearch] = useState('');
+    const navigate = useNavigate();
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        navigate(`/product?search=${search}`);
+    }
 
     return (
         <nav className="navbar">
@@ -34,7 +41,7 @@ const Navbar = () => {
 
             <ul className="nav-right">
                 <li className="search">
-                    <form>
+                    <form onSubmit={onSubmit}>
                         <input
                             type="text"
                             name="search"
