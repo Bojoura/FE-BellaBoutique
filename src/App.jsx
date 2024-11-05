@@ -5,25 +5,27 @@ import Home from "./pages/home/Home.jsx";
 import Account from "./pages/account/Account.jsx";
 import Product from "./pages/product/Product.jsx";
 import Cart from "./pages/cart/Cart.jsx";
-import Notfound from "./pages/notfound/Notfound.jsx";
+import Footer from "./components/footer/Footer.jsx";
+import Bar from "./components/bar/Bar.jsx";
 
 function App() {
   return (
     <>
         <header>
             <Navbar/>
+            <Bar/>
         </header>
 
         <main>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/account" element={<Account/>}/>
                 <Route path="/product" element={<Product/>}/>
                 <Route path="/cart" element={<Cart/>}/>
-                <Route path="*" element={<Notfound/>}/>
+                <Route path="/account" element={<Account/>}/>
             </Routes>
         </main>
 
+        <Footer/>
     </>
   )
 }
