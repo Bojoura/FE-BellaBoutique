@@ -11,6 +11,7 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         if (id) {
@@ -19,6 +20,10 @@ const ProductDetail = () => {
                     const productResponse = await axios.get(`http://localhost:8080/api/products/${id}`);
                     console.log(productResponse.data);
                     setProduct(productResponse.data);
+
+                    const reviewsResponse = await axios.get(`http://localhost:8080/api/products/${id}/reviews`);
+                    console.log(reviewsResponse.data);
+                    setReviews(reviewsResponse.data);
 
                     setLoading(false);
 
@@ -81,6 +86,21 @@ const ProductDetail = () => {
                         Voeg toe aan winkelwagen
                     </button>
                 </div>
+            </div>
+
+            <div className="reviews">
+                <h2>Customer Reviews</h2>
+                {reviews.length > 0 ? (
+                    reviews.map((review) => (
+                        <div className="review" key={review.id}>
+                            <h4>{review.reviewerName} - {review.rating}/5</h4>
+                            <p>{review.comment}</p>
+                            <small>{new Date(review.reviewDate).toLocaleDateString()}</small>
+                        </div>
+                    ))
+                ) : (
+                    <p>Dit product heeft nog geen reviews.</p>
+                )}
             </div>
         </div>
     );

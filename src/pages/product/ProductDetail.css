@@ -91,6 +91,47 @@
     background-color: #DBA6B3;
 }
 
+.reviews {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.reviews h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.review {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.review:last-child {
+    border-bottom: none;
+}
+
+.review h4 {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.review p {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.review small {
+    font-size: 0.9em;
+    color: #999;
+}
+
 @media screen and (max-width: 768px) {
     .product-detail {
         flex-direction: column;
@@ -101,4 +142,7 @@
         max-width: 100%;
     }
 
+    .reviews {
+        padding: 15px;
+    }
 }
