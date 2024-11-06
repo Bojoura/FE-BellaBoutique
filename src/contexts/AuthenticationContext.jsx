@@ -4,12 +4,13 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import checkTokenValidation from "../helpers/CheckTokenValidation";
 
-const AuthContext = createContext(
-    // isAuth: false,
-    // user: null,
-    // login: () => {},
-    // logout: () => {},
-);
+const AuthContext = createContext({
+    isAuth: false,
+    user: null,
+    login: () => {},
+    logout: () => {},
+    status: 'pending',
+});
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -26,40 +27,41 @@ export const AuthContextProvider = ({ children }) =>{
         if (storedToken && checkTokenValidation(storedToken)) {
             void login(storedToken);
         } else {
-            void logout();
+            logout(false);
         }
     }, []);
 
     const login = async (jwt) => {
-        const decodedToken = (jwtDecode(jwt));
-        console.log(decodedToken);
-        localStorage.setItem('jwt', jwt);
         try {
-            const response = await axios.get(`http://localhost:8080/users/?username=${decodedToken.sub}`, {
+            const decodedToken = (jwtDecode(jwt));
+            localStorage.setItem('jwt', jwt);
+
+            const response = await axios.get(`http://localhost:8080/users/${decodedToken.sub}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${jwt}`,
                 },
             });
 
+            const userData = {
+                username: response.data.username,
+                email: response.data.email,
+                authority: response.data.authority,
+            };
+
             setAuth({
-                ...auth,
                 isAuth: true,
-                user: {
-                    username: response.data.username,
-                    email: response.data.email,
-                    authority: response.data.authority,
-                },
+                user: userData,
                 status: 'done',
             });
         } catch (error) {
-            alert(error);
+            alert('Login mislukt. Probeer het opnieuw.');
+            logout(false);
         }
     }
 
-    function logout(redirect = true) {
+    const logout= (redirect = true) => {
         setAuth({
-            ...auth,
             isAuth: false,
             user: '',
             status: 'done',
@@ -76,7 +78,9 @@ export const AuthContextProvider = ({ children }) =>{
         user: auth.user,
         login,
         logout,
+        status: auth.status
     };
+
     return (
         <AuthContext.Provider value={contextData}>
             {auth.status === 'done' ? children : <p>Loading...</p>}

@@ -76,12 +76,6 @@ const ProductDetail = () => {
                     <h2>{product.title}</h2>
                     <p className="price">€ {product.price}</p>
                     <p className="description">{product.description}</p>
-
-                    {product.stock > 0 ? (
-                        <p className="stock">Voorraad: {product.stock} stuks beschikbaar.</p>
-                    ) : (
-                        <p className="stock out-of-stock">Niet op voorraad.</p>
-                    )}
                     <button className="add-to-cart-btn" onClick={handleAddToCart} disabled={product.stock === 0}>
                         Voeg toe aan winkelwagen
                     </button>
