@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import checkTokenValidity from '/src/helpers/CheckTokenValidation.jsx';
+import checkTokenValidity from '/src/helpers/CheckTokenValidation';
 import axios from "axios";
 
 const ShopCartContext = createContext();

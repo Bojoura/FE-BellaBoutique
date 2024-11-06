@@ -2,7 +2,7 @@ import {createContext, useContext, useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import checkTokenValidation from "../helpers/CheckTokenValidation.jsx";
+import checkTokenValidation from "../helpers/CheckTokenValidation";
 
 const AuthContext = createContext(
     // isAuth: false,

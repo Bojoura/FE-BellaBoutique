@@ -2,7 +2,7 @@ import "./Account.css";
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from "axios";
-import {useAuth} from "/src/contexts/AuthenticationContext.jsx";
+import {useAuth} from "/src/contexts/AuthenticationContext";
 import {useNavigate} from "react-router-dom";
 
 const Account = () => {

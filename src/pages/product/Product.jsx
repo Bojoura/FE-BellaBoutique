@@ -1,6 +1,6 @@
 import "./Product.css";
-import ProductCard from "../../components/productcard/ProductCard.jsx";
-import useProducts from "../../components/hooks/useProducts.jsx";
+import ProductCard from "../../components/productcard/ProductCard";
+import useProducts from "../../components/hooks/useProducts";
 import {useSearchParams} from "react-router-dom";
 
 const ProductList = () => {

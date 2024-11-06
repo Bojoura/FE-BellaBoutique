@@ -2,7 +2,7 @@ import './Home.css';
 import womenShop from "../../assets/women-shop.jpg";
 import useProducts from '../../components/hooks/useProducts';
 import { Link } from 'react-router-dom';
-import ProductCard from "../../components/productcard/ProductCard.jsx";
+import ProductCard from "../../components/productcard/ProductCard";
 
 const Home = () => {
     const { products, loading, error } = useProducts();
