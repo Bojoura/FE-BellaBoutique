@@ -17,7 +17,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthContextProvider = ({ children }) =>{
     const [auth, setAuth] = useState({
         isAuth: false,
-        user: '',
+        user: null,
         status: 'pending',
     });
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ export const AuthContextProvider = ({ children }) =>{
             });
 
             const userData = {
-                username: response.data.username,
+                name: response.data.username,
                 email: response.data.email,
                 authority: response.data.authority,
             };
@@ -63,7 +63,7 @@ export const AuthContextProvider = ({ children }) =>{
     const logout= (redirect = true) => {
         setAuth({
             isAuth: false,
-            user: '',
+            user: null,
             status: 'done',
         });
         localStorage.removeItem('jwt');
