@@ -27,7 +27,7 @@ export const ShopCartProvider = ({ children }) => {
 
     const getProducts = async (storedCartItems) => {
         const products = await Promise.all(storedCartItems.map(async (item) => {
-            const product = await axios.get(`http://localhost:8080/api/products/${item.productId}`);
+            const product = await axios.get(`http://localhost:8080/products/${item.productId}`);
             return {
                 ...item,
                 ...product.data,
@@ -43,7 +43,7 @@ export const ShopCartProvider = ({ children }) => {
             handleQuantityChange(productId, existingItem.quantity + quantity);
         } else {
             try {
-                const response = await axios.get(`http://localhost:8080/api/products/${productId}`);
+                const response = await axios.get(`http://localhost:8080/products/${productId}`);
                 const newItem = {
                     ...response.data,
                     quantity

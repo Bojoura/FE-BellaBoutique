@@ -17,11 +17,11 @@ const ProductDetail = () => {
         if (id) {
             const fetchProduct = async () => {
                 try {
-                    const productResponse = await axios.get(`http://localhost:8080/api/products/${id}`);
+                    const productResponse = await axios.get(`http://localhost:8080/products/${id}`);
                     console.log(productResponse.data);
                     setProduct(productResponse.data);
 
-                    const reviewsResponse = await axios.get(`http://localhost:8080/api/products/${id}/reviews`);
+                    const reviewsResponse = await axios.get(`http://localhost:8080/products/${id}/reviews`);
                     console.log(reviewsResponse.data);
                     setReviews(reviewsResponse.data);
 
