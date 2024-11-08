@@ -44,9 +44,8 @@ export const AuthContextProvider = ({ children }) =>{
             });
 
             const userData = {
-                name: response.data.username,
-                email: response.data.email,
-                authority: response.data.authority,
+                ...response.data.user,
+                photoUrl: response.data.photoUrl,
             };
 
             setAuth({

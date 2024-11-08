@@ -9,30 +9,48 @@ const AccountDetail = () => {
     const navigate = useNavigate();
     const [isEditable, setIsEditable] = useState(false);
     const [file, setFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
 
     const handleLogout = () => {
         logout();
         navigate("/");
     };
 
-//submit call using native formData api
     const handleSubmit = (event) => {
-        event.preventDefault()
-        const formData = new FormData(event.target)
+        event.preventDefault();
 
-        axios.put(`http://localhost:8080/users/${user.email}`, {data: formData}).then((res) => {
-            console.log(res);
-            //reload so that authcontext can get new data
-            window.location.reload();
-        });
-    }
+        const formData = new FormData(event.target);
 
-//keep file in state so we can show the name of the file to user that is uploading
-    const handleFileChange = (event) => {
-        if (event.target.files) {
-            setFile(event.target.files[0]);
+        if (file) {
+            formData.append("photo", file);
         }
+
+        const jwt = localStorage.getItem('jwt');
+
+        try {
+             axios.put(`http://localhost:8080/users/${user.email}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${jwt}`,
+
+                },
+            }).then(() => {
+                 window.location.reload();
+             });
+
+
+    } catch (error) {
+        console.error("Fout bij het uploaden:", error);
     }
+};
+
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            setFile(selectedFile);
+            setPreviewUrl(URL.createObjectURL(selectedFile));
+        }
+    };
 
     if (status === 'pending') return <p>Profielgegevens laden...</p>;
 
@@ -45,20 +63,29 @@ const AccountDetail = () => {
                         {isEditable ? (
                             <form onSubmit={handleSubmit}>
                                 <label htmlFor="">Naam</label>
-                                <input type="text" name="name" defaultValue={user.name}/>
+                                <input type="text" name="name" defaultValue={user.username}/>
                                 <p><strong>Emailadres:</strong> {user.email}</p>
+
+                                <label htmlFor="file">Profielfoto:</label>
                                 <input id="file" type="file" name="photo" onChange={handleFileChange}/>
-                                {file && <p>Bestandsnaam: {file.name}</p>}
+
+                                {previewUrl && (
+                                    <div>
+                                        <label>Voorbeeld:</label>
+                                        <img src={previewUrl} alt="Voorbeeld van de geselecteerde afbeelding" className="image-preview"/>
+                                    </div>
+                                )}
+
                                 <input type="submit" value="Verzenden"/>
                             </form>
                         ) : (
                             <>
-                                {user.photo &&
+                                {user.userPhoto && (
                                     <div className="profile-image-wrapper">
-                                        <img className="profile-image" src={user.photo} alt="profile photo"/>
+                                        <img className="profile-image" src={`http://localhost:8080${user.photoUrl}`} alt="profile photo"/>
                                     </div>
-                                }
-                                <p><strong>Naam:</strong> {user.name}</p>
+                                    )}
+                                <p><strong>Naam:</strong> {user.username}</p>
                                 <p><strong>Emailadres:</strong> {user.email}</p>
                                 <button className="login-button" onClick={() => setIsEditable(!isEditable)}>
                                     Profiel aanpassen
