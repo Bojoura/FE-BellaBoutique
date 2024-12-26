@@ -1,18 +1,10 @@
 import './Home.css';
 import womenShop from "../../assets/women-shop.jpg";
-import useProducts from '../../components/hooks/useProducts';
-import { Link } from 'react-router-dom';
-import ProductCard from "../../components/productcard/ProductCard";
+import {Link} from 'react-router-dom';
+import FeaturedProducts from "../../components/featured-products/FeaturedProducts.jsx";
+import AccessibleImage from "../../components/AccessibleImage.jsx";
 
 const Home = () => {
-    const { products, loading, error } = useProducts();
-    if (loading) {
-        return <p>Laden...</p>;
-    }
-
-    if (error) {
-        return <p>{error}</p>;
-    }
 
     return (
         <div className="homepage">
@@ -24,15 +16,11 @@ const Home = () => {
                         <button className="shop-button">Shop Nu</button>
                     </Link>
                 </div>
-                <div className="background"><img src={womenShop}/></div>
+                <div className="background"><AccessibleImage src={womenShop} alt="view the women shop"></AccessibleImage></div>
             </section>
             <section className="featured-products">
                 <h2>Uitgelichte Producten</h2>
-                <div className="products">
-                    {products.slice(0, 3).map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                </div>
+                <FeaturedProducts start={0} end={3}/>
             </section>
         </div>
     );
