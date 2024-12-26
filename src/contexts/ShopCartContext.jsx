@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import checkTokenValidity from '/src/helpers/CheckTokenValidation';
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const ShopCartContext = createContext();
 
@@ -92,4 +93,8 @@ export const ShopCartProvider = ({ children }) => {
             {children}
         </ShopCartContext.Provider>
     );
+};
+
+ShopCartProvider.propTypes = {
+    children: PropTypes.element.isRequired,
 };
