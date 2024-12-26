@@ -31,7 +31,12 @@ function App() {
             </Routes>
         </main>
 
-        <Footer/>
+        <Footer
+        year={new Date().getFullYear()}
+        companyName="Bella's Boutique"
+        text="Alle rechten voorbehouden."
+        />
+
     </>
   )
 }
