@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import checkTokenValidation from "../helpers/CheckTokenValidation";
+import PropTypes from "prop-types";
 
 const AuthContext = createContext({
     isAuth: false,
@@ -86,3 +87,7 @@ export const AuthContextProvider = ({ children }) =>{
         </AuthContext.Provider>
     );
 }
+
+AuthContextProvider.propTypes = {
+    children: PropTypes.element.isRequired,
+};
