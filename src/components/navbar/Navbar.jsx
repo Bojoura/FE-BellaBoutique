@@ -1,7 +1,10 @@
-import {NavLink, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import "./Navbar.css";
 import Logo from "../../assets/Logo.png";
 import {useState} from "react";
+import CustomNavLink from "./CustomNavLink.jsx";
+import AccessibleImage from "../AccessibleImage.jsx";
+import CustomForm from "./CustomForm.jsx";
 
 const Navbar = () => {
     const [search, setSearch] = useState('');
@@ -15,53 +18,21 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <ul className="nav-left">
-                <li>
-                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                             to="/">Home
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                             to="/product">Producten
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                             to="/cart">Winkelwagen
-                    </NavLink>
-                </li>
+                    <CustomNavLink page={"/"} label={"Home"} />
+                    <CustomNavLink page={"/product"} label={"Producten"} />
+                    <CustomNavLink page={"/cart"} label={"Winkelwagen"} />
             </ul>
 
             <div className="logo">
-                <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                         to="/">
-                    <img src={Logo} alt="Company logo"/>
-                </NavLink>
+                <CustomNavLink page={"/"} label={""}>
+                    <AccessibleImage src={Logo} alt={"Company logo"} />
+                </CustomNavLink>
             </div>
 
             <ul className="nav-right">
-                <li className="search">
-                    <form onSubmit={onSubmit}>
-                        <input
-                            type="text"
-                            name="search"
-                            id="search"
-                            placeholder="Zoeken..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                    </form>
-                </li>
-                <li>
-                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                             to="/account">Account
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                             to="/contact">Contact
-                    </NavLink>
-                </li>
+                <CustomForm onChange={setSearch} onSubmit={onSubmit} value={search} placeholder={"Zoeken..."} name={"search"} id={"search"}/>
+                <CustomNavLink page={"/account"} label={"Account"} />
+                <CustomNavLink page={"/contact"} label={"Contact"} />
             </ul>
         </nav>
     );
