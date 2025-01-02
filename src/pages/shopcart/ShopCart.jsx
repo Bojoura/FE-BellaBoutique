@@ -1,5 +1,6 @@
 import { useShopCart } from '/src/contexts/ShopCartContext';
 import './ShopCart.css';
+import CartItem from "../../components/CartItem/CartItem.jsx";
 
 const ShopCart = () => {
     const { cartItems, total, handleQuantityChange, handleRemoveItem, isTokenValid } = useShopCart();
@@ -16,28 +17,7 @@ const ShopCart = () => {
             ) : (
                 <div className="cart-items">
                     {cartItems.map(item => (
-                        <div className="cart-item" key={item.id}>
-                            <div className="cart-item-image">
-                                <img src={item.images[0]} alt={item.title}/>
-                            </div>
-                            <div className="cart-item-info">
-                                <h3>{item.title}</h3>
-                                <p>Prijs: €{item.price}</p>
-                                <div className="quantity-control">
-                                    <label htmlFor={`quantity-${item.id}`}>Aantal:</label>
-                                    <input
-                                        id={`quantity-${item.id}`}
-                                        type="number"
-                                        value={item.quantity}
-                                        min="1"
-                                        onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-                                    />
-                                </div>
-                                <button className="remove-item-btn" onClick={() => handleRemoveItem(item.id)}>
-                                    Verwijderen
-                                </button>
-                            </div>
-                        </div>
+                        <CartItem item={item} key={item.id} label={"Aantal:"} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} />
                     ))}
                 </div>
             )}
