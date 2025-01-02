@@ -8,7 +8,7 @@ const AccessibleImage = ({src, alt}) => {
 };
 
 AccessibleImage.propTypes = {
-    src: PropTypes.object.isRequired,
+    src: PropTypes.string.isRequired || PropTypes.object.isRequired,
     alt: PropTypes.string.isRequired,
 };
 
