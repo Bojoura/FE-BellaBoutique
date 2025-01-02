@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
 const CustomForm = ({onChange, onSubmit, value, placeholder, name, id}) => {
-
     return (
         <li className={id}>
             <form onSubmit={onSubmit}>
@@ -18,7 +17,7 @@ const CustomForm = ({onChange, onSubmit, value, placeholder, name, id}) => {
     );
 }
 
-CustomForm.PropTypes = {
+CustomForm.propTypes = {
     onChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     value: PropTypes.string.isRequired,
