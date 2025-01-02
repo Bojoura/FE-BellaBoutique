@@ -1,10 +1,11 @@
-import {useNavigate} from "react-router-dom";
 import "./Navbar.css";
-import Logo from "../../assets/Logo.png";
+import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import CustomNavLink from "./CustomNavLink.jsx";
-import AccessibleImage from "../AccessibleImage.jsx";
+import AccessibleImage from "../accessible-image/AccessibleImage.jsx";
 import CustomForm from "./CustomForm.jsx";
+import Logo from "../../assets/Logo.png";
+
 
 const Navbar = () => {
     const [search, setSearch] = useState('');
