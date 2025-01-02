@@ -15,6 +15,31 @@ body {
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 400px;
+}
+
+@media (max-width: 320px) {
+    .hero {
+        min-height: 100px;
+        font-size: 12px;
+    }
+
+    .products {
+        min-width: 80vw;
+        flex-direction: column;
+
+        >.product-item {
+            width: 100%;
+        }
+    }
+
+
+}
+
+@media (min-width: 768px) {
+    .hero {
+        min-height: 200px;
+    }
 }
 
 .hero-text{
