@@ -2,7 +2,7 @@ import './Home.css';
 import womenShop from "../../assets/women-shop.jpg";
 import {Link} from 'react-router-dom';
 import FeaturedProducts from "../../components/featured-products/FeaturedProducts.jsx";
-import AccessibleImage from "../../components/AccessibleImage.jsx";
+import AccessibleImage from "../../components/accessible-image/AccessibleImage.jsx";
 
 const Home = () => {
 
@@ -19,8 +19,7 @@ const Home = () => {
                 <div className="background"><AccessibleImage src={womenShop} alt="view the women shop"></AccessibleImage></div>
             </section>
             <section className="featured-products">
-                <h2>Uitgelichte Producten</h2>
-                <FeaturedProducts start={0} end={3}/>
+                <FeaturedProducts title={"Uitgelichte producten"} start={3} end={6}/>
             </section>
         </div>
     );
