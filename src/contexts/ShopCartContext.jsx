@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import checkTokenValidity from '/src/helpers/CheckTokenValidation';
 import axios from "axios";
 import PropTypes from "prop-types";
+import Product from "../Types.js";
 
 const ShopCartContext = createContext();
 
@@ -13,13 +14,12 @@ export const ShopCartProvider = ({ children }) => {
     const [isTokenValid, setIsTokenValid] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem("authToken");
+        const token = localStorage.getItem("jwt");
         if (token) {
             setIsTokenValid(checkTokenValidity(token));
         }
 
         const storedCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
         if (storedCartItems.length > 0) {
             getProducts(storedCartItems).catch(console.log);
             calculateTotal(storedCartItems);
@@ -34,10 +34,12 @@ export const ShopCartProvider = ({ children }) => {
                 ...product.data,
             };
         }));
+        //TODO: check if images are still available
         setCartItems(products);
     };
 
     const handleAddItem = async (productId, quantity = 1) => {
+
         const existingItem = cartItems.find(item => item.id === productId);
 
         if (existingItem) {
@@ -52,11 +54,14 @@ export const ShopCartProvider = ({ children }) => {
 
                 const updatedCartItems = [...cartItems, newItem];
                 setCartItems(updatedCartItems);
+                console.log('adding item to cart', updatedCartItems);
                 localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
                 calculateTotal(updatedCartItems);
             } catch (error) {
                 console.error("Error fetching product:", error);
             }
+
+            console.log("not found item in localStorage, overwriting with set value");
         }
     };
 
@@ -96,5 +101,6 @@ export const ShopCartProvider = ({ children }) => {
 };
 
 ShopCartProvider.propTypes = {
+    products: PropTypes.arrayOf(Product),
     children: PropTypes.element.isRequired,
 };
