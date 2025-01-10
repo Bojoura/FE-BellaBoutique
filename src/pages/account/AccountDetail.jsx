@@ -12,6 +12,7 @@ const AccountDetail = () => {
     const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [message, setMessage] = useState("");
+    console.log(previewUrl);
 
     const handleLogout = () => {
         logout();
@@ -20,13 +21,13 @@ const AccountDetail = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const formData = new FormData(event.target);
+        const formData = new FormData();
 
         if (file) {
             formData.append("photo", file);
         }
 
-        const jwt = localStorage.getItem('jwt');
+        const jwt = localStorage.getItem("jwt");
 
         try {
             await axios.put(`http://localhost:8080/users/${user.email}`, formData, {
@@ -36,13 +37,11 @@ const AccountDetail = () => {
                 },
             });
             setMessage("Profiel succesvol bijgewerkt!");
-            setFile(null);
-            setPreviewUrl(null);
         } catch (error) {
-            console.error("Fout bij het uploaden:", error);
+            console.error("Fout bij het uploaden:", error.response || error);
             setMessage("Er is een fout opgetreden. Probeer het opnieuw.");
         }
-};
+    };
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -82,16 +81,17 @@ const AccountDetail = () => {
                                         <img src={previewUrl} alt="Voorbeeld van de geselecteerde afbeelding" className="image-preview"/>
                                     </div>
                                 )}
+                                {console.log(previewUrl)}
                                 {message && <p>{message}</p>}
                                 <input type="submit" value="Verzenden"/>
                             </form>
                         ) : (
                             <>
-                                {user.userPhoto && (
+                                {user.photoUrl && (
                                     <div className="profile-image-wrapper">
-                                        <img className="profile-image" src={`http://localhost:8080${user.photoUrl}`} alt="profile photo"/>
+                                        <img className="profile-image" src={user.photoUrl} alt="Profielfoto" />
                                     </div>
-                                    )}
+                                )}
                                 <p><strong>Naam:</strong> {user.username}</p>
                                 <p><strong>Emailadres:</strong> {user.email}</p>
                                 <Button className="login-button" onClick={() => setIsEditable(!isEditable)}>Profiel aanpassen</Button>
