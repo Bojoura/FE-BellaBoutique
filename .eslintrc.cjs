@@ -17,5 +17,24 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    camelcase: ['error', {
+      properties: 'never',
+      ignoreDestructuring: true,
+      ignoreImports: true,
+      allow: [
+        'created_at',
+        'updated_at',
+        'image_url',
+        'address_line'
+      ]
+    }],
+    'react/prop-types': ['error', {
+      ignore: ['children']
+    }],
+    'react/display-name': 'off',
+    'no-unused-vars': ['error', {
+      varsIgnorePattern: '^_',
+      argsIgnorePattern: '^_'
+    }]
   },
 }
