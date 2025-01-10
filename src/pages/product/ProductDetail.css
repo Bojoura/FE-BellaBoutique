@@ -14,6 +14,8 @@
 }
 
 .product-detail-container {
+    max-width: 1600px;
+    margin: 0 auto;
     padding: 0 120px;
     text-align: left;
     z-index: 2;
@@ -22,15 +24,15 @@
 .product-detail {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     margin: 40px 0;
 }
 
 .product-image {
     flex: 1;
-    max-width: 50%;
+    max-width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .product-image img {
@@ -45,7 +47,7 @@
 
 .product-info {
     flex: 1;
-    max-width: 50%;
+    max-width: 100%;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -64,7 +66,6 @@
 }
 
 .product-info .price {
-    font-size: 1.5em;
     font-weight: bold;
     color: #333;
     margin-bottom: 30px;
@@ -74,7 +75,22 @@
     font-size: 1.2em;
     color: #555;
     line-height: 1.6;
-    margin-right: 325px;
+    max-width: 100%;
+}
+
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.star {
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.star.filled {
+    color: #DBA6B3;
 }
 
 .add-to-cart-btn {
@@ -86,7 +102,7 @@
     font-size: 1.1em;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-right: 325px;
+    max-width: 100%;
 }
 
 .add-to-cart-btn:hover {
@@ -95,8 +111,7 @@
 
 .reviews {
     margin-top: 40px;
-    margin-left: 325px;
-    margin-right: 325px;
+    width: 100%;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
@@ -109,10 +124,14 @@
     color: #333;
 }
 
-.review {
+.review-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.2em;
+    color: #555;
+    margin-left: 10px;
     border-bottom: 1px solid #ddd;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
 }
 
 .review:last-child {
@@ -120,7 +139,7 @@
 }
 
 .review h4 {
-    font-size: 1.3em;
+    font-size: 1.1em;
     margin-bottom: 10px;
     color: #333;
 }
@@ -131,12 +150,23 @@
     color: #666;
 }
 
+.review-value,
+.star-rating {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+
+}
+
 .review small {
     font-size: 0.9em;
     color: #999;
 }
 
 @media screen and (max-width: 768px) {
+    .product-detail-container {
+        padding: 0 10px;
+    }
     .product-detail {
         flex-direction: column;
         align-items: center;
