@@ -2,8 +2,9 @@ import "./Account.css";
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from "axios";
-import {useAuth} from "/src/contexts/AuthenticationContext";
-import {useNavigate} from "react-router-dom";
+import { useAuth } from "/src/contexts/AuthenticationContext";
+import { useNavigate } from "react-router-dom";
+import Button from "../../components/buttons/Button.jsx";
 
 const Account = () => {
     const [emailaddress, setEmailaddress] = useState('');
@@ -22,11 +23,13 @@ const Account = () => {
                 email: emailaddress,
                 password: password
             });
+            console.log(response);
             if (response.status === 200) {
                 await login(response.data.jwt);
                 navigate('/accountdetail');
             }
         } catch (e) {
+            console.error(e);
             if (e.response && e.response.status === 401) {
                 setError('Password is incorrect');
             } else {
@@ -101,7 +104,7 @@ const Account = () => {
                                 required
                             />
                         </div>
-                        <button className="login-button" type="submit">Registreren</button>
+                        <Button className="login-button" type="submit">Registreren</Button>
                         <p>Heeft u al een account, klik <span onClick={() => setIsRegistering(false)}>hier</span> om
                             in te loggen.</p>
                     </form>
@@ -126,17 +129,16 @@ const Account = () => {
                                     required
                                     className="password-input"
                                 />
-                                <button
-                                    type="button"
+                                <Button
                                     onClick={togglePasswordVisibility}
                                     className="toggle-password-visibility"
                                 >
-                                    {isPasswordVisible ? <FaEyeSlash/> : <FaEye/>}
-                                </button>
+                                    {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                                </Button>
                             </div>
                             {error && <p className="error">{error}</p>}
                         </div>
-                        <button className="login-button" type="submit" onClick={handleLogin}>Inloggen</button>
+                        <Button className="login-button" type="submit" onClick={handleLogin}>Inloggen</Button>
                         <p>Heeft u nog geen account, registreer dan <span
                             onClick={() => setIsRegistering(true)}>hier</span>.</p>
                     </form>

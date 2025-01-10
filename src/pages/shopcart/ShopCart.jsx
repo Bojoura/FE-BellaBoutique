@@ -1,9 +1,10 @@
 import { useShopCart } from '/src/contexts/ShopCartContext';
 import './ShopCart.css';
 import CartItem from "../../components/CartItem/CartItem.jsx";
+import Button from '/src/components/Buttons/Button.jsx';
 
 const ShopCart = () => {
-    const { cartItems, total, handleQuantityChange, handleRemoveItem, isTokenValid } = useShopCart();
+    const { cartItems, total, updateQuantity, handleRemoveItem, isTokenValid } = useShopCart();
 
     if (!isTokenValid) {
         return <p>Uw sessie is verlopen. Log opnieuw in om verder te gaan.</p>;
@@ -17,14 +18,14 @@ const ShopCart = () => {
             ) : (
                 <div className="cart-items">
                     {cartItems.map(item => (
-                        <CartItem item={item} key={item.id} label={"Aantal:"} handleQuantityChange={handleQuantityChange} handleRemoveItem={handleRemoveItem} />
+                        <CartItem item={item} key={item.id} label={"Aantal:"} updateQuantity={updateQuantity} handleRemoveItem={handleRemoveItem} />
                     ))}
                 </div>
             )}
             {cartItems.length > 0 && (
                 <div className="cart-total">
                     <h3>Totaal: €{total.toFixed(2)}</h3>
-                    <button className="checkout-btn">Afrekenen</button>
+                    <Button className="checkout-btn">Afrekenen</Button>
                 </div>
             )}
         </div>
