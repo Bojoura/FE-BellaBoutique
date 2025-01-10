@@ -9,7 +9,6 @@ const ProductList = () => {
     const navigate = useNavigate();
 
     const useHandleSelectProduct = (id) => {
-        console.log(`Product ${id} is geselecteerd`);
         navigate(`/product/${id}`)
     }
 
