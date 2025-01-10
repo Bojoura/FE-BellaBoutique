@@ -3,8 +3,8 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import CustomNavLink from "./CustomNavLink.jsx";
 import AccessibleImage from "../accessible-image/AccessibleImage.jsx";
-import CustomForm from "./CustomForm.jsx";
 import Logo from "../../assets/Logo.png";
+import CustomInput from "../custom-input/CustomInput.jsx";
 
 
 const Navbar = () => {
@@ -31,9 +31,17 @@ const Navbar = () => {
             </div>
 
             <ul className="nav-right">
-                <CustomForm onChange={setSearch} onSubmit={onSubmit} value={search} placeholder={"Zoeken..."} name={"search"} id={"search"}/>
-                <CustomNavLink page={"/account"} label={"Account"} />
-                <CustomNavLink page={"/contact"} label={"Contact"} />
+                <form className="search" onSubmit={onSubmit}>
+                    <CustomInput
+                        onChange={setSearch}
+                        value={search}
+                        placeholder="Zoeken..."
+                        name="search"
+                        id="search"
+                    />
+                </form>
+                <CustomNavLink page={"/account"} label={"Account"}/>
+                <CustomNavLink page={"/contact"} label={"Contact"}/>
             </ul>
         </nav>
     );
