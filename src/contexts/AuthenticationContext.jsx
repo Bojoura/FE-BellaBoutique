@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useState} from 'react';
+import {createContext, useEffect, useState, useCallback, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
@@ -12,6 +12,7 @@ const AuthContext = createContext({
     logout: () => {},
     status: 'pending',
 });
+console.log(AuthContext);
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -23,29 +24,35 @@ export const AuthContextProvider = ({ children }) =>{
     });
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem('jwt');
-        if (storedToken && checkTokenValidation(storedToken)) {
-            void login(storedToken);
-        } else {
-            logout(false);
+    const logout = useCallback((redirect = true) => {
+        setAuth({
+            isAuth: false,
+            user: null,
+            status: 'done',
+        });
+        localStorage.removeItem('jwt');
+        localStorage.removeItem('cart');
+        if (redirect) {
+            navigate('/');
         }
-    }, []);
+    }, [navigate]);
 
-    const login = async (jwt) => {
+    const login = useCallback(async (jwt) => {
+        const decodedToken = (jwtDecode(jwt));
+        localStorage.setItem('jwt', jwt);
+        console.log(decodedToken);
         try {
-            const decodedToken = (jwtDecode(jwt));
-            localStorage.setItem('jwt', jwt);
-
             const response = await axios.get(`http://localhost:8080/users/${decodedToken.sub}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${jwt}`,
                 },
+                withCredentials: true
             });
-
+            console.log(response.data);
             const userData = {
-                ...response.data.user,
+                username: response.data.username,
+                email: response.data.email,
                 photoUrl: response.data.photoUrl,
             };
 
@@ -58,20 +65,16 @@ export const AuthContextProvider = ({ children }) =>{
             alert('Login mislukt. Probeer het opnieuw.');
             logout(false);
         }
-    }
+    }, [logout]);
 
-    const logout= (redirect = true) => {
-        setAuth({
-            isAuth: false,
-            user: null,
-            status: 'done',
-        });
-        localStorage.removeItem('jwt');
-        localStorage.removeItem('cart');
-        if (redirect) {
-            navigate('/');
+    useEffect(() => {
+        const storedToken = localStorage.getItem('jwt');
+        if (storedToken && checkTokenValidation(storedToken)) {
+            void login(storedToken);
+        } else {
+            logout(false);
         }
-    }
+    }, [login, logout]);
 
     const contextData = {
         isAuth: auth.isAuth,
@@ -91,3 +94,5 @@ export const AuthContextProvider = ({ children }) =>{
 AuthContextProvider.propTypes = {
     children: PropTypes.element.isRequired,
 };
+
+export default AuthContext;
