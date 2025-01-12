@@ -1,8 +1,8 @@
 import "./AccountDetail.css";
-import { useAuth } from "/src/contexts/AuthenticationContext";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+import {useAuth} from "/src/contexts/AuthenticationContext";
+import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import axios, {AxiosHeaders as Buffer} from "axios";
 import Button from "../../components/buttons/Button.jsx";
 
 const AccountDetail = () => {
@@ -12,6 +12,7 @@ const AccountDetail = () => {
     const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const [message, setMessage] = useState("");
+    const [photo, setPhoto] = useState(null);
     console.log(previewUrl);
 
     const handleLogout = () => {
@@ -30,15 +31,19 @@ const AccountDetail = () => {
         const jwt = localStorage.getItem("jwt");
 
         try {
-            await axios.put(`http://localhost:8080/users/${user.email}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${jwt}`,
-                },
-            });
+            const response =
+                await axios.put(`http://localhost:8080/users/${user.email}`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${jwt}`,
+                    },
+                });
+            console.log(response);
+            void fetchPhoto(response.data.photoUrl)
+            // setPhoto(response.data.photoUrl)
             setMessage("Profiel succesvol bijgewerkt!");
         } catch (error) {
-            console.error("Fout bij het uploaden:", error.response || error);
+            console.error("Fout bij het uploaden:", error);
             setMessage("Er is een fout opgetreden. Probeer het opnieuw.");
         }
     };
@@ -59,6 +64,26 @@ const AccountDetail = () => {
         }
     };
 
+    const fetchPhoto = async (photoEndpoint) => {
+        const jwt = localStorage.getItem("jwt");
+
+        try {
+            const response = await axios.get(`http://localhost:8080${photoEndpoint}`, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`,
+                },
+                responseType: 'blob',
+            });
+
+            const imageUrl = URL.createObjectURL(response.data);
+
+            setPhoto(imageUrl);
+            setIsEditable(!isEditable);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     if (!user || status === "pending") return <p>Profielgegevens laden...</p>;
     if (status === "error") return <p>Er is een fout opgetreden bij het ophalen van de gegevens.</p>;
 
@@ -75,26 +100,32 @@ const AccountDetail = () => {
                                 <p><strong>Emailadres:</strong> {user.email}</p>
                                 <label htmlFor="file">Profielfoto:</label>
                                 <input id="file" type="file" name="photo" onChange={handleFileChange}/>
-                                {previewUrl && (
+                                {previewUrl && !photo && (
                                     <div>
                                         <label>Voorbeeld:</label>
-                                        <img src={previewUrl} alt="Voorbeeld van de geselecteerde afbeelding" className="image-preview"/>
+                                        <img src={previewUrl} alt="Voorbeeld van de geselecteerde afbeelding"
+                                             className="image-preview"/>
                                     </div>
                                 )}
                                 {console.log(previewUrl)}
                                 {message && <p>{message}</p>}
-                                <input type="submit" value="Verzenden"/>
+                                <input type="submit" value="Opslaan"/>
                             </form>
                         ) : (
                             <>
-                                {user.photoUrl && (
-                                    <div className="profile-image-wrapper">
-                                        <img className="profile-image" src={user.photoUrl} alt="Profielfoto" />
-                                    </div>
-                                )}
+                                <div className="profile-image-wrapper">
+                                    <img
+                                        className="profile-image"
+                                        src={photo || user.photoUrl}
+                                        alt="Profielfoto"
+                                        key={photo || user.photoUrl}
+                                    />
+                                </div>
+
                                 <p><strong>Naam:</strong> {user.username}</p>
                                 <p><strong>Emailadres:</strong> {user.email}</p>
-                                <Button className="login-button" onClick={() => setIsEditable(!isEditable)}>Profiel aanpassen</Button>
+                                <Button className="login-button" onClick={() => setIsEditable(!isEditable)}>Profiel
+                                    aanpassen</Button>
                                 <Button className="login-button" onClick={handleLogout}>Uitloggen</Button>
                             </>
                         )}
